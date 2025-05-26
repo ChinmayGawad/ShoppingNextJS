@@ -1,0 +1,38 @@
+.homeContainer {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 20px;
+}
+
+.featuredProducts {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 20px;
+    width: 100%;
+}
+
+.productTitle {
+    font-size: 24px;
+    font-weight: bold;
+    margin: 10px 0;
+}
+
+.productPrice {
+    font-size: 20px;
+    color: #333;
+}
+
+.addToCartButton {
+    background-color: #0070f3;
+    color: white;
+    border: none;
+    padding: 10px 15px;
+    cursor: pointer;
+    border-radius: 5px;
+    transition: background-color 0.3s;
+}
+
+.addToCartButton:hover {
+    background-color: #005bb5;
+}
