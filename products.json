@@ -2,8 +2,8 @@
   {
     "id": 1,
     "title": "Dell Inspiron Desktop",
-    "price": 763.99,
-    "image": "/images/desktop1.jpg",
+    "price": 461.99,
+    "image": "/images/desktop1.png",
     "category": "Desktops",
     "specs": [
       "Intel Core i5",
@@ -15,8 +15,8 @@
   {
     "id": 2,
     "title": "HP Pavilion Desktop",
-    "price": 428.99,
-    "image": "/images/desktop2.jpg",
+    "price": 898.99,
+    "image": "/images/desktop2.png",
     "category": "Desktops",
     "specs": [
       "Intel Core i7",
@@ -28,8 +28,8 @@
   {
     "id": 3,
     "title": "Acer Aspire TC",
-    "price": 1334.99,
-    "image": "/images/desktop3.jpg",
+    "price": 1437.99,
+    "image": "/images/desktop3.png",
     "category": "Desktops",
     "specs": [
       "AMD Ryzen 5",
@@ -41,8 +41,8 @@
   {
     "id": 4,
     "title": "Lenovo IdeaCentre",
-    "price": 860.99,
-    "image": "/images/desktop4.jpg",
+    "price": 1231.99,
+    "image": "/images/desktop4.png",
     "category": "Desktops",
     "specs": [
       "Intel Core i3",
@@ -54,8 +54,8 @@
   {
     "id": 5,
     "title": "MSI Pro DP21",
-    "price": 630.99,
-    "image": "/images/desktop1.jpg",
+    "price": 700.99,
+    "image": "/images/desktop1.png",
     "category": "Desktops",
     "specs": [
       "Intel Core i5",
@@ -67,8 +67,8 @@
   {
     "id": 6,
     "title": "ASUS ExpertCenter",
-    "price": 541.99,
-    "image": "/images/desktop2.jpg",
+    "price": 574.99,
+    "image": "/images/desktop2.png",
     "category": "Desktops",
     "specs": [
       "Intel Core i7",
@@ -80,8 +80,8 @@
   {
     "id": 7,
     "title": "Apple iMac",
-    "price": 1346.99,
-    "image": "/images/desktop3.jpg",
+    "price": 892.99,
+    "image": "/images/desktop3.png",
     "category": "Desktops",
     "specs": [
       "AMD Ryzen 5",
@@ -93,8 +93,8 @@
   {
     "id": 8,
     "title": "CyberPowerPC Gamer Xtreme",
-    "price": 574.99,
-    "image": "/images/desktop4.jpg",
+    "price": 1148.99,
+    "image": "/images/desktop4.png",
     "category": "Desktops",
     "specs": [
       "Intel Core i3",
@@ -106,7 +106,7 @@
   {
     "id": 9,
     "title": "Apple MacBook Air",
-    "price": 898.99,
+    "price": 655.99,
     "image": "/images/laptop1.jpg",
     "category": "Laptops",
     "specs": [
@@ -119,7 +119,7 @@
   {
     "id": 10,
     "title": "Lenovo ThinkPad",
-    "price": 1106.99,
+    "price": 785.99,
     "image": "/images/laptop2.jpg",
     "category": "Laptops",
     "specs": [
@@ -132,7 +132,7 @@
   {
     "id": 11,
     "title": "HP Envy x360",
-    "price": 955.99,
+    "price": 837.99,
     "image": "/images/laptop3.jpg",
     "category": "Laptops",
     "specs": [
@@ -145,7 +145,7 @@
   {
     "id": 12,
     "title": "Dell XPS 13",
-    "price": 660.99,
+    "price": 1106.99,
     "image": "/images/laptop4.jpg",
     "category": "Laptops",
     "specs": [
@@ -158,7 +158,7 @@
   {
     "id": 13,
     "title": "Acer Swift 3",
-    "price": 1082.99,
+    "price": 833.99,
     "image": "/images/laptop1.jpg",
     "category": "Laptops",
     "specs": [
@@ -171,7 +171,7 @@
   {
     "id": 14,
     "title": "ASUS ZenBook",
-    "price": 501.99,
+    "price": 1310.99,
     "image": "/images/laptop2.jpg",
     "category": "Laptops",
     "specs": [
@@ -184,7 +184,7 @@
   {
     "id": 15,
     "title": "Microsoft Surface Laptop",
-    "price": 1323.99,
+    "price": 425.99,
     "image": "/images/laptop3.jpg",
     "category": "Laptops",
     "specs": [
@@ -197,7 +197,7 @@
   {
     "id": 16,
     "title": "Razer Blade Stealth",
-    "price": 822.99,
+    "price": 1454.99,
     "image": "/images/laptop4.jpg",
     "category": "Laptops",
     "specs": [
@@ -210,7 +210,7 @@
   {
     "id": 17,
     "title": "iPhone 15",
-    "price": 400.99,
+    "price": 798.99,
     "image": "/images/mobile1.jpg",
     "category": "Mobiles",
     "specs": [
@@ -223,7 +223,7 @@
   {
     "id": 18,
     "title": "Samsung Galaxy S24",
-    "price": 1335.99,
+    "price": 1190.99,
     "image": "/images/mobile2.jpg",
     "category": "Mobiles",
     "specs": [
@@ -236,7 +236,7 @@
   {
     "id": 19,
     "title": "OnePlus 12",
-    "price": 1249.99,
+    "price": 971.99,
     "image": "/images/mobile3.jpg",
     "category": "Mobiles",
     "specs": [
@@ -249,7 +249,7 @@
   {
     "id": 20,
     "title": "Google Pixel 8",
-    "price": 1318.99,
+    "price": 514.99,
     "image": "/images/mobile4.jpg",
     "category": "Mobiles",
     "specs": [
@@ -262,7 +262,7 @@
   {
     "id": 21,
     "title": "Xiaomi 13 Pro",
-    "price": 938.99,
+    "price": 1261.99,
     "image": "/images/mobile1.jpg",
     "category": "Mobiles",
     "specs": [
@@ -275,7 +275,7 @@
   {
     "id": 22,
     "title": "Oppo Find X6",
-    "price": 1449.99,
+    "price": 859.99,
     "image": "/images/mobile2.jpg",
     "category": "Mobiles",
     "specs": [
@@ -288,7 +288,7 @@
   {
     "id": 23,
     "title": "Vivo X90",
-    "price": 1283.99,
+    "price": 1390.99,
     "image": "/images/mobile3.jpg",
     "category": "Mobiles",
     "specs": [
@@ -301,7 +301,7 @@
   {
     "id": 24,
     "title": "Sony Xperia 1 V",
-    "price": 441.99,
+    "price": 1046.99,
     "image": "/images/mobile4.jpg",
     "category": "Mobiles",
     "specs": [

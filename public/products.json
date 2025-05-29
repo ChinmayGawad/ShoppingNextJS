@@ -2,8 +2,8 @@
   {
     "id": 1,
     "title": "Dell Inspiron Desktop",
-    "price": 668.99,
-    "image": "/images/desktop1.jpg",
+    "price": 899.99,
+    "image": "/images/desktop1.png",
     "category": "Desktops",
     "specs": [
       "Intel Core i5",
@@ -15,8 +15,8 @@
   {
     "id": 2,
     "title": "HP Pavilion Desktop",
-    "price": 439.99,
-    "image": "/images/desktop2.jpg",
+    "price": 999.99,
+    "image": "/images/desktop2.png",
     "category": "Desktops",
     "specs": [
       "Intel Core i7",
@@ -28,8 +28,8 @@
   {
     "id": 3,
     "title": "Acer Aspire TC",
-    "price": 962.99,
-    "image": "/images/desktop3.jpg",
+    "price": 799.99,
+    "image": "/images/desktop3.png",
     "category": "Desktops",
     "specs": [
       "AMD Ryzen 5",
@@ -41,8 +41,8 @@
   {
     "id": 4,
     "title": "Lenovo IdeaCentre",
-    "price": 812.99,
-    "image": "/images/desktop4.jpg",
+    "price": 849.99,
+    "image": "/images/desktop4.png",
     "category": "Desktops",
     "specs": [
       "Intel Core i3",
@@ -53,25 +53,25 @@
   },
   {
     "id": 5,
-    "title": "MSI Pro DP21",
-    "price": 697.99,
-    "image": "/images/desktop1.jpg",
-    "category": "Desktops",
+    "title": "Apple MacBook Air",
+    "price": 1299.99,
+    "image": "/images/laptop1.jpg",
+    "category": "Laptops",
     "specs": [
-      "Intel Core i5",
+      "Apple M2 Chip",
       "8GB RAM",
-      "1TB HDD",
-      "Windows 11 Home"
+      "256GB SSD",
+      "macOS Sonoma"
     ]
   },
   {
     "id": 6,
-    "title": "ASUS ExpertCenter",
-    "price": 1080.99,
-    "image": "/images/desktop2.jpg",
-    "category": "Desktops",
+    "title": "Lenovo ThinkPad",
+    "price": 1199.99,
+    "image": "/images/laptop2.jpg",
+    "category": "Laptops",
     "specs": [
-      "Intel Core i7",
+      "Intel Core i5",
       "16GB RAM",
       "512GB SSD",
       "Windows 11 Pro"
@@ -79,236 +79,80 @@
   },
   {
     "id": 7,
-    "title": "Apple iMac",
-    "price": 1236.99,
-    "image": "/images/desktop3.jpg",
-    "category": "Desktops",
+    "title": "HP Envy x360",
+    "price": 1099.99,
+    "image": "/images/laptop3.jpg",
+    "category": "Laptops",
     "specs": [
-      "AMD Ryzen 5",
-      "12GB RAM",
-      "1TB HDD",
-      "Windows 10"
+      "Intel Core i7",
+      "16GB RAM",
+      "1TB SSD",
+      "Windows 11 Home"
     ]
   },
   {
     "id": 8,
-    "title": "CyberPowerPC Gamer Xtreme",
-    "price": 1235.99,
-    "image": "/images/desktop4.jpg",
-    "category": "Desktops",
+    "title": "Dell XPS 13",
+    "price": 1399.99,
+    "image": "/images/laptop4.jpg",
+    "category": "Laptops",
     "specs": [
-      "Intel Core i3",
-      "8GB RAM",
-      "256GB SSD",
-      "Windows 11 Home"
+      "Intel Core i7",
+      "16GB RAM",
+      "512GB SSD",
+      "Windows 11 Pro"
     ]
   },
   {
     "id": 9,
-    "title": "Apple MacBook Air",
-    "price": 419.99,
-    "image": "/images/laptop1.jpg",
-    "category": "Laptops",
+    "title": "iPhone 15 Pro",
+    "price": 999.99,
+    "image": "/images/mobile1.jpg",
+    "category": "Mobiles",
     "specs": [
-      "Apple M2 Chip",
-      "8GB RAM",
-      "256GB SSD",
-      "macOS Sonoma"
+      "6.1-inch OLED",
+      "A17 Pro Chip",
+      "256GB Storage",
+      "iOS 17"
     ]
   },
   {
     "id": 10,
-    "title": "Lenovo ThinkPad",
-    "price": 584.99,
-    "image": "/images/laptop2.jpg",
-    "category": "Laptops",
+    "title": "Samsung Galaxy S24 Ultra",
+    "price": 1199.99,
+    "image": "/images/mobile2.jpg",
+    "category": "Mobiles",
     "specs": [
-      "Intel Core i5",
-      "16GB RAM",
-      "512GB SSD",
-      "Windows 11 Pro"
+      "6.8-inch AMOLED",
+      "Snapdragon 8 Gen 3",
+      "512GB Storage",
+      "Android 14"
     ]
   },
   {
     "id": 11,
-    "title": "HP Envy x360",
-    "price": 623.99,
-    "image": "/images/laptop3.jpg",
-    "category": "Laptops",
+    "title": "Google Pixel 8 Pro",
+    "price": 899.99,
+    "image": "/images/mobile3.jpg",
+    "category": "Mobiles",
     "specs": [
-      "Intel Core i7",
-      "16GB RAM",
-      "1TB SSD",
-      "Windows 11 Home"
+      "6.7-inch OLED",
+      "Google Tensor G3",
+      "256GB Storage",
+      "Android 14"
     ]
   },
   {
     "id": 12,
-    "title": "Dell XPS 13",
-    "price": 622.99,
-    "image": "/images/laptop4.jpg",
-    "category": "Laptops",
-    "specs": [
-      "Intel Core i7",
-      "16GB RAM",
-      "512GB SSD",
-      "Windows 11 Pro"
-    ]
-  },
-  {
-    "id": 13,
-    "title": "Acer Swift 3",
-    "price": 1340.99,
-    "image": "/images/laptop1.jpg",
-    "category": "Laptops",
-    "specs": [
-      "Apple M2 Chip",
-      "8GB RAM",
-      "256GB SSD",
-      "macOS Sonoma"
-    ]
-  },
-  {
-    "id": 14,
-    "title": "ASUS ZenBook",
-    "price": 1413.99,
-    "image": "/images/laptop2.jpg",
-    "category": "Laptops",
-    "specs": [
-      "Intel Core i5",
-      "16GB RAM",
-      "512GB SSD",
-      "Windows 11 Pro"
-    ]
-  },
-  {
-    "id": 15,
-    "title": "Microsoft Surface Laptop",
-    "price": 1359.99,
-    "image": "/images/laptop3.jpg",
-    "category": "Laptops",
-    "specs": [
-      "Intel Core i7",
-      "16GB RAM",
-      "1TB SSD",
-      "Windows 11 Home"
-    ]
-  },
-  {
-    "id": 16,
-    "title": "Razer Blade Stealth",
-    "price": 1283.99,
-    "image": "/images/laptop4.jpg",
-    "category": "Laptops",
-    "specs": [
-      "Intel Core i7",
-      "16GB RAM",
-      "512GB SSD",
-      "Windows 11 Pro"
-    ]
-  },
-  {
-    "id": 17,
-    "title": "iPhone 15",
-    "price": 537.99,
-    "image": "/images/mobile1.jpg",
-    "category": "Mobiles",
-    "specs": [
-      "6.1-inch OLED",
-      "A16 Bionic Chip",
-      "128GB Storage",
-      "iOS 17"
-    ]
-  },
-  {
-    "id": 18,
-    "title": "Samsung Galaxy S24",
-    "price": 853.99,
-    "image": "/images/mobile2.jpg",
-    "category": "Mobiles",
-    "specs": [
-      "6.2-inch AMOLED",
-      "Exynos 2400",
-      "256GB Storage",
-      "Android 14"
-    ]
-  },
-  {
-    "id": 19,
     "title": "OnePlus 12",
-    "price": 1198.99,
-    "image": "/images/mobile3.jpg",
-    "category": "Mobiles",
-    "specs": [
-      "6.7-inch AMOLED",
-      "Snapdragon 8 Gen 2",
-      "256GB Storage",
-      "Android 14"
-    ]
-  },
-  {
-    "id": 20,
-    "title": "Google Pixel 8",
-    "price": 1022.99,
+    "price": 799.99,
     "image": "/images/mobile4.jpg",
     "category": "Mobiles",
     "specs": [
-      "6.3-inch OLED",
-      "Google Tensor G3",
-      "128GB Storage",
-      "Android 14"
-    ]
-  },
-  {
-    "id": 21,
-    "title": "Xiaomi 13 Pro",
-    "price": 1218.99,
-    "image": "/images/mobile1.jpg",
-    "category": "Mobiles",
-    "specs": [
-      "6.1-inch OLED",
-      "A16 Bionic Chip",
-      "128GB Storage",
-      "iOS 17"
-    ]
-  },
-  {
-    "id": 22,
-    "title": "Oppo Find X6",
-    "price": 1465.99,
-    "image": "/images/mobile2.jpg",
-    "category": "Mobiles",
-    "specs": [
-      "6.2-inch AMOLED",
-      "Exynos 2400",
+      "6.82-inch AMOLED",
+      "Snapdragon 8 Gen 3",
       "256GB Storage",
-      "Android 14"
-    ]
-  },
-  {
-    "id": 23,
-    "title": "Vivo X90",
-    "price": 742.99,
-    "image": "/images/mobile3.jpg",
-    "category": "Mobiles",
-    "specs": [
-      "6.7-inch AMOLED",
-      "Snapdragon 8 Gen 2",
-      "256GB Storage",
-      "Android 14"
-    ]
-  },
-  {
-    "id": 24,
-    "title": "Sony Xperia 1 V",
-    "price": 660.99,
-    "image": "/images/mobile4.jpg",
-    "category": "Mobiles",
-    "specs": [
-      "6.3-inch OLED",
-      "Google Tensor G3",
-      "128GB Storage",
-      "Android 14"
+      "OxygenOS 14"
     ]
   }
 ]

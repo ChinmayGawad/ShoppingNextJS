@@ -4,97 +4,27 @@ import Link from 'next/link';
 import Header from '../../components/Header';
 import Footer from '../../components/Footer';
 
-const allProducts = [
-  {
-    id: 1,
-    title: 'Dell Inspiron Desktop',
-    price: 499.99,
-    image: '/images/desktop1.jpg',
-    category: 'Desktops',
-    specs: [
-      'Intel Core i5',
-      '8GB RAM',
-      '1TB HDD',
-      'Windows 11 Home',
-    ],
-  },
-  {
-    id: 2,
-    title: 'HP Pavilion Desktop',
-    price: 599.99,
-    image: '/images/desktop2.jpg',
-    category: 'Desktops',
-    specs: [
-      'Intel Core i7',
-      '16GB RAM',
-      '512GB SSD',
-      'Windows 11 Pro',
-    ],
-  },
-  {
-    id: 3,
-    title: 'Apple MacBook Air',
-    price: 999.99,
-    image: '/images/laptop1.jpg',
-    category: 'Laptops',
-    specs: [
-      'Apple M2 Chip',
-      '8GB RAM',
-      '256GB SSD',
-      'macOS Sonoma',
-    ],
-  },
-  {
-    id: 4,
-    title: 'Lenovo ThinkPad',
-    price: 849.99,
-    image: '/images/laptop2.jpg',
-    category: 'Laptops',
-    specs: [
-      'Intel Core i5',
-      '16GB RAM',
-      '512GB SSD',
-      'Windows 11 Pro',
-    ],
-  },
-  {
-    id: 5,
-    title: 'iPhone 15',
-    price: 1099.99,
-    image: '/images/mobile1.jpg',
-    category: 'Mobiles',
-    specs: [
-      '6.1-inch OLED',
-      'A16 Bionic Chip',
-      '128GB Storage',
-      'iOS 17',
-    ],
-  },
-  {
-    id: 6,
-    title: 'Samsung Galaxy S24',
-    price: 899.99,
-    image: '/images/mobile2.jpg',
-    category: 'Mobiles',
-    specs: [
-      '6.2-inch AMOLED',
-      'Exynos 2400',
-      '256GB Storage',
-      'Android 14',
-    ],
-  },
-];
-
 const ProductPage = () => {
   const router = useRouter();
   const { id } = router.query;
   const [product, setProduct] = useState(null);
 
   useEffect(() => {
-    if (id) {
-      const found = allProducts.find((p) => p.id === Number(id));
-      setProduct(found || null);
+    async function loadProduct() {
+      if (id) {
+        try {
+          const res = await fetch('/products.json');
+          if (!res.ok) throw new Error('Failed to fetch products');
+          const products = await res.json();
+          const found = products.find((p) => p.id === Number(id));
+          setProduct(found || null);
+        } catch (err) {
+          console.error('Error loading product:', err);
+          setProduct(null);
+        }
+      }
     }
+    loadProduct();
   }, [id]);
 
   if (!product) {

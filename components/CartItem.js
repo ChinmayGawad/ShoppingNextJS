@@ -12,13 +12,13 @@ const CartItem = ({ item, onRemove, onQuantityChange }) => {
                 <h3 style={{ fontSize: '1.15rem', margin: 0, color: '#2d2d2d', fontWeight: 700 }}>{item.title}</h3>
                 <p style={{ color: '#4f46e5', fontWeight: 600, margin: '0.5rem 0 0.7rem 0' }}>Price: ₹{(item.price * 83).toLocaleString('en-IN', { maximumFractionDigits: 0 })}</p>
                 <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
-                    <input 
-                        type="number" 
-                        value={item.quantity} 
-                        min="1" 
-                        onChange={handleQuantityChange} 
+                <input 
+                    type="number" 
+                    value={item.quantity} 
+                    min="1" 
+                    onChange={handleQuantityChange} 
                         style={{ width: 56, padding: 6, borderRadius: 6, border: '1px solid #ccc', fontSize: 15 }}
-                    />
+                />
                     <button onClick={() => onRemove(item.id)} style={{ background: 'linear-gradient(90deg, #ff3b3b 60%, #f87171 100%)', color: '#fff', border: 'none', borderRadius: 7, padding: '7px 18px', fontWeight: 600, cursor: 'pointer', fontSize: 15, boxShadow: '0 1px 4px rgba(255,59,59,0.08)', transition: 'background 0.2s, transform 0.15s' }}>Remove</button>
                 </div>
             </div>

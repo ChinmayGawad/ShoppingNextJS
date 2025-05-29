@@ -1,9 +1,13 @@
-import { useState } from 'react';
+import { useState, useContext, useEffect } from 'react';
 import { useRouter } from 'next/router';
 import Header from '../components/Header';
 import Footer from '../components/Footer';
+import { CartContext } from '../context/CartContext';
+import { supabase } from '../utils/supabase';
+import Link from 'next/link';
 
 const Checkout = () => {
+    const { cartItems, clearCart } = useContext(CartContext);
     const [shippingInfo, setShippingInfo] = useState({
         name: '',
         address: '',
@@ -16,7 +20,15 @@ const Checkout = () => {
     const [upi, setUpi] = useState('');
     const [showConfirmation, setShowConfirmation] = useState(false);
     const [errors, setErrors] = useState({});
+    const [loading, setLoading] = useState(false);
     const router = useRouter();
+
+    // Check if cart is empty
+    useEffect(() => {
+        if (cartItems.length === 0 && !showConfirmation) {
+            router.push('/cart');
+        }
+    }, [cartItems, showConfirmation]);
 
     const handleChange = (e) => {
         const { name, value } = e.target;
@@ -48,12 +60,58 @@ const Checkout = () => {
         return errs;
     };
 
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
         const errs = validate();
         setErrors(errs);
+        
         if (Object.keys(errs).length === 0) {
-            setShowConfirmation(true);
+            setLoading(true);
+            try {
+                // Check if cart is empty
+                if (cartItems.length === 0) {
+                    setErrors({ submit: 'Your cart is empty' });
+                    return;
+                }
+
+                // Check if user is logged in
+                const { data: { session } } = await supabase.auth.getSession();
+                if (!session) {
+                    // Save the current URL to redirect back after login
+                    localStorage.setItem('redirectAfterLogin', '/checkout');
+                    router.push('/login');
+                    return;
+                }
+
+                // Calculate total amount
+                const totalAmount = cartItems.reduce((total, item) => total + item.price * item.quantity, 0);
+
+                // Create order in database
+                const { error: orderError } = await supabase
+                    .from('orders')
+                    .insert({
+                        user_id: session.user.id,
+                        items: cartItems,
+                        total_amount: totalAmount,
+                        shipping_info: shippingInfo,
+                        payment_method: paymentMethod,
+                        status: 'pending',
+                        payment_status: paymentMethod === 'cod' ? 'pending' : 'paid'
+                    });
+
+                if (orderError) throw orderError;
+
+                // Clear the cart
+                clearCart();
+                
+                // Show confirmation
+                setShowConfirmation(true);
+            } catch (err) {
+                console.error('Error creating order:', err);
+                setErrors({ submit: err.message || 'Failed to create order. Please try again.' });
+            } finally {
+                setLoading(false);
+            }
         }
     };
 
@@ -81,6 +139,36 @@ const Checkout = () => {
         <div style={{ minHeight: '100vh', background: 'linear-gradient(135deg, #f8fafc 0%, #e0e7ff 100%)' }}>
             <Header />
             <h1 style={{ textAlign: 'center', margin: '2.5rem 0 2rem 0', fontSize: '2.2rem', fontWeight: 800, color: '#2d2d2d' }}>Checkout</h1>
+            
+            {/* Show general error message if any */}
+            {errors.submit && (
+                <div style={{ 
+                    maxWidth: 500, 
+                    margin: '0 auto 1rem auto', 
+                    padding: '1rem', 
+                    background: '#fee2e2', 
+                    color: '#ef4444',
+                    borderRadius: '8px',
+                    textAlign: 'center'
+                }}>
+                    {errors.submit}
+                </div>
+            )}
+
+            {/* Show loading state */}
+            {loading && (
+                <div style={{ 
+                    maxWidth: 500, 
+                    margin: '0 auto 1rem auto', 
+                    padding: '1rem', 
+                    background: '#f3f4f6',
+                    borderRadius: '8px',
+                    textAlign: 'center'
+                }}>
+                    Processing your order...
+                </div>
+            )}
+
             <form onSubmit={handleSubmit} style={{ maxWidth: 500, margin: '0 auto', background: '#fff', borderRadius: 16, boxShadow: '0 4px 24px rgba(0,0,0,0.10)', padding: '2.5rem 2rem' }}>
                 <h2 style={{ color: '#4f46e5', marginBottom: 18 }}>Shipping Details</h2>
                 <div style={{ marginBottom: 14 }}>
@@ -164,7 +252,26 @@ const Checkout = () => {
                         Pay with cash when your order is delivered!
                     </div>
                 )}
-                <button type="submit" style={{ width: '100%', background: 'linear-gradient(90deg, #0070f3 60%, #4f46e5 100%)', color: '#fff', padding: '0.9rem 0', borderRadius: 8, fontWeight: 700, fontSize: '1.1rem', border: 'none', marginTop: 10, boxShadow: '0 2px 8px rgba(79,70,229,0.08)', cursor: 'pointer', transition: 'background 0.2s, transform 0.15s' }}>Complete Purchase</button>
+                <button 
+                    type="submit" 
+                    disabled={loading}
+                    style={{ 
+                        width: '100%', 
+                        background: loading ? '#9ca3af' : 'linear-gradient(90deg, #0070f3 60%, #4f46e5 100%)', 
+                        color: '#fff', 
+                        padding: '0.9rem 0', 
+                        borderRadius: 8, 
+                        fontWeight: 700, 
+                        fontSize: '1.1rem', 
+                        border: 'none', 
+                        marginTop: 10, 
+                        boxShadow: '0 2px 8px rgba(79,70,229,0.08)', 
+                        cursor: loading ? 'not-allowed' : 'pointer', 
+                        transition: 'background 0.2s, transform 0.15s' 
+                    }}
+                >
+                    {loading ? 'Processing...' : 'Complete Purchase'}
+                </button>
             </form>
             <Footer />
         </div>
