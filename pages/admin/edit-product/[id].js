@@ -4,7 +4,7 @@ import Header from '../../../components/Header';
 import Footer from '../../../components/Footer';
 import Link from 'next/link';
 import withAuth from '../../../components/withAuth';
-import { supabase } from '../../../utils/supabase';
+import { getSupabase } from '../../../utils/supabase';
 
 const EditProduct = () => {
   const router = useRouter();
@@ -28,6 +28,7 @@ const EditProduct = () => {
 
   const loadProduct = async () => {
     try {
+      const supabase = getSupabase();
       const { data, error } = await supabase
         .from('products')
         .select('*')
@@ -84,6 +85,7 @@ const EditProduct = () => {
     }
 
     try {
+      const supabase = getSupabase();
       const { error } = await supabase
         .from('products')
         .update({

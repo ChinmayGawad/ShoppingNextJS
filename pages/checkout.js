@@ -3,7 +3,7 @@ import { useRouter } from 'next/router';
 import Header from '../components/Header';
 import Footer from '../components/Footer';
 import { CartContext } from '../context/CartContext';
-import { supabase } from '../utils/supabase';
+import { getSupabase } from '../utils/supabase';
 import Link from 'next/link';
 
 const Checkout = () => {
@@ -75,6 +75,7 @@ const Checkout = () => {
                 }
 
                 // Check if user is logged in
+                const supabase = getSupabase();
                 const { data: { session } } = await supabase.auth.getSession();
                 if (!session) {
                     // Save the current URL to redirect back after login
