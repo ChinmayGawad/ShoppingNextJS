@@ -2,7 +2,7 @@ import React, { useContext, useEffect, useState } from 'react';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 import { CartContext } from '../context/CartContext';
-import { supabase } from '../utils/supabase';
+import { getSupabase, isSupabaseConfigured } from '../utils/supabase';
 import styles from '../styles/Home.module.css';
 
 const Header = () => {
@@ -14,21 +14,44 @@ const Header = () => {
     useEffect(() => {
         // Check for user session
         const getSession = async () => {
-            const { data: { session } } = await supabase.auth.getSession();
-            setUser(session?.user || null);
+            try {
+                if (!isSupabaseConfigured()) {
+                    setUser(null);
+                    return;
+                }
+                const supabase = getSupabase();
+                const { data: { session } } = await supabase.auth.getSession();
+                setUser(session?.user || null);
+            } catch (error) {
+                console.error('Error getting session:', error);
+                setUser(null);
+            }
         };
         getSession();
 
         // Listen for auth changes
-        const { data: { subscription } } = supabase.auth.onAuthStateChange((_event, session) => {
-            setUser(session?.user || null);
-        });
+        let subscription;
+        const setupAuthListener = async () => {
+            try {
+                if (!isSupabaseConfigured()) return;
+                const supabase = getSupabase();
+                const { data: { subscription: sub } } = supabase.auth.onAuthStateChange((_event, session) => {
+                    setUser(session?.user || null);
+                });
+                subscription = sub;
+            } catch (error) {
+                console.error('Error setting up auth listener:', error);
+            }
+        };
+        setupAuthListener();
 
         return () => subscription?.unsubscribe();
     }, []);
 
     const handleSignOut = async () => {
         try {
+            if (!isSupabaseConfigured()) return;
+            const supabase = getSupabase();
             await supabase.auth.signOut();
             router.push('/');
         } catch (error) {
@@ -39,7 +62,7 @@ const Header = () => {
     return (
         <header className={styles.header} style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '0 2vw' }}>
             <div className={styles.logo} style={{ fontWeight: 800, fontSize: '1.5rem' }}>
-                <Link href="/">My E-Commerce Site</Link>
+                <Link href="/">Tech Store</Link>
             </div>
             <nav>
                 <ul className={styles.navLinks} style={{ display: 'flex', gap: '1.5rem', alignItems: 'center', listStyle: 'none', margin: 0 }}>

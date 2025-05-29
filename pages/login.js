@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { useRouter } from 'next/router';
 import Link from 'next/link';
-import { supabase } from '../utils/supabase';
+import { getSupabase, isSupabaseConfigured } from '../utils/supabase';
 import Header from '../components/Header';
 import Footer from '../components/Footer';
 
@@ -28,6 +28,11 @@ export default function Login() {
     setLoading(true);
 
     try {
+      if (!isSupabaseConfigured()) {
+        throw new Error('Authentication service is not configured');
+      }
+
+      const supabase = getSupabase();
       const { data, error: signInError } = await supabase.auth.signInWithPassword({
         email: formData.email,
         password: formData.password,

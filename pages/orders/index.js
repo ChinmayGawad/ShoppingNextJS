@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import { useRouter } from 'next/router';
 import Header from '../../components/Header';
 import Footer from '../../components/Footer';
-import { supabase } from '../../utils/supabase';
+import { getSupabase, isSupabaseConfigured } from '../../utils/supabase';
 
 const Orders = () => {
     const [orders, setOrders] = useState([]);
@@ -13,6 +13,11 @@ const Orders = () => {
     useEffect(() => {
         const fetchOrders = async () => {
             try {
+                if (!isSupabaseConfigured()) {
+                    throw new Error('Authentication service is not configured');
+                }
+
+                const supabase = getSupabase();
                 const { data: { session } } = await supabase.auth.getSession();
                 
                 if (!session) {

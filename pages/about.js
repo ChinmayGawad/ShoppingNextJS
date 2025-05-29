@@ -1,17 +1,52 @@
+import React from 'react';
 import Header from '../components/Header';
 import Footer from '../components/Footer';
-import Link from 'next/link';
 
-export default function About() {
-  return (
-    <div style={{ minHeight: '100vh', background: 'linear-gradient(135deg, #f8fafc 0%, #e0e7ff 100%)' }}>
-      <Header />
-      <main style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', minHeight: '70vh' }}>
-        <h1 style={{ fontSize: '2.2rem', color: '#4f46e5', fontWeight: 800 }}>About Us</h1>
-        <p style={{ fontSize: '1.15rem', color: '#333', margin: '1.5rem 0' }}>This is a placeholder for the About page.</p>
-        <Link href="/" style={{ color: '#0070f3', fontWeight: 600 }}>Back to Home</Link>
-      </main>
-      <Footer />
-    </div>
-  );
-} 
+const About = () => {
+    return (
+        <>
+            <Header />
+            <div className="about-container">
+                <h1>About Us</h1>
+                <div className="content">
+                    <p>Welcome to our e-commerce platform! We are dedicated to providing the best shopping experience for our customers.</p>
+                    <p>Our mission is to deliver high-quality products at competitive prices while ensuring excellent customer service.</p>
+                </div>
+            </div>
+            <Footer />
+
+            <style jsx>{`
+                .about-container {
+                    min-height: 80vh;
+                    padding: 2rem;
+                    background: linear-gradient(135deg, #f8fafc 0%, #e0e7ff 100%);
+                }
+                h1 {
+                    text-align: center;
+                    color: #2d2d2d;
+                    margin-bottom: 2rem;
+                    font-size: 2.2rem;
+                    font-weight: 800;
+                }
+                .content {
+                    max-width: 800px;
+                    margin: 0 auto;
+                    background: white;
+                    padding: 2rem;
+                    border-radius: 12px;
+                    box-shadow: 0 4px 24px rgba(0,0,0,0.1);
+                }
+                p {
+                    margin-bottom: 1rem;
+                    line-height: 1.6;
+                    color: #4a5568;
+                }
+                p:last-child {
+                    margin-bottom: 0;
+                }
+            `}</style>
+        </>
+    );
+};
+
+export default About; 

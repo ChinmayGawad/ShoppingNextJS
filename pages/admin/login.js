@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { useRouter } from 'next/router';
 import Header from '../../components/Header';
 import Footer from '../../components/Footer';
-import { supabase } from '../../utils/supabase';
+import { getSupabase, isSupabaseConfigured } from '../../utils/supabase';
 
 const AdminLogin = () => {
   const router = useRouter();
@@ -27,6 +27,11 @@ const AdminLogin = () => {
     setError('');
     
     try {
+      if (!isSupabaseConfigured()) {
+        throw new Error('Authentication service is not configured. Please contact support.');
+      }
+
+      const supabase = getSupabase();
       const { data, error } = await supabase.auth.signInWithPassword({
         email: credentials.email,
         password: credentials.password,
