@@ -25,18 +25,29 @@ const AdminDashboard = () => {
 
   const checkAdmin = async () => {
     try {
+      console.log('Checking Supabase configuration...');
       if (!isSupabaseConfigured()) {
-        throw new Error('Authentication service is not configured');
+        console.error('Supabase is not configured');
+        throw new Error('Authentication service is not configured. Please check environment variables in Vercel.');
       }
 
+      console.log('Getting Supabase client...');
       const supabase = getSupabase();
-      const { data: { session } } = await supabase.auth.getSession();
+      console.log('Getting session...');
+      const { data: { session }, error: sessionError } = await supabase.auth.getSession();
       
+      if (sessionError) {
+        console.error('Session error:', sessionError);
+        throw sessionError;
+      }
+
       if (!session) {
+        console.log('No session found, redirecting to login...');
         router.push('/admin/login');
         return;
       }
 
+      console.log('Checking admin status...');
       // Check if user is admin
       let { data: profile, error: profileError } = await supabase
         .from('profiles')
@@ -44,10 +55,14 @@ const AdminDashboard = () => {
         .eq('id', session.user.id)
         .maybeSingle();
 
-      if (profileError) throw profileError;
+      if (profileError) {
+        console.error('Profile error:', profileError);
+        throw profileError;
+      }
 
       // If profile doesn't exist, create it with default role
       if (!profile) {
+        console.log('Creating new profile...');
         const { data: newProfile, error: insertError } = await supabase
           .from('profiles')
           .insert([{ 
@@ -57,16 +72,23 @@ const AdminDashboard = () => {
           .select('role')
           .single();
 
-        if (insertError) throw insertError;
+        if (insertError) {
+          console.error('Insert error:', insertError);
+          throw insertError;
+        }
         profile = newProfile;
       }
 
       if (profile?.role !== 'admin') {
+        console.log('User is not admin, redirecting...');
         router.push('/');
         return;
       }
+
+      console.log('Admin check successful');
     } catch (err) {
-      console.error('Error checking admin status:', err);
+      console.error('Error in checkAdmin:', err);
+      setError(err.message || 'Failed to check admin status');
       router.push('/admin/login');
     }
   };
