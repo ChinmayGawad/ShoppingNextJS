@@ -99,7 +99,7 @@ const Orders = () => {
                                                 <h4>{item.title}</h4>
                                                 <p>Quantity: {item.quantity}</p>
                                                 <p className="item-price">
-                                                    ₹{(item.price * 83).toLocaleString('en-IN', { maximumFractionDigits: 0 })}
+                                                    ₹{item.price.toLocaleString('en-IN', { maximumFractionDigits: 0 })}
                                                 </p>
                                             </div>
                                         </div>
@@ -107,7 +107,7 @@ const Orders = () => {
                                 </div>
                                 <div className="order-footer">
                                     <div className="order-total">
-                                        Total: ₹{(order.total_amount * 83).toLocaleString('en-IN', { maximumFractionDigits: 0 })}
+                                        Total: ₹{order.total_amount.toLocaleString('en-IN', { maximumFractionDigits: 0 })}
                                     </div>
                                 </div>
                             </div>
