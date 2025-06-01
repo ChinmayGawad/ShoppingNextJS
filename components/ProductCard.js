@@ -14,7 +14,7 @@ const ProductCard = ({ product, onAddToCart }) => {
                 />
             </div>
             <h2>{product.title}</h2>
-            <p>₹{(product.price * 83).toLocaleString('en-IN', { maximumFractionDigits: 0 })}</p>
+            <p>₹{product.price.toLocaleString('en-IN')}</p>
             <button onClick={() => onAddToCart(product)}>Add to Cart</button>
             <style jsx>{`
                 .product-card {

@@ -3,19 +3,22 @@ import { useRouter } from 'next/router';
 import Header from '../../components/Header';
 import Footer from '../../components/Footer';
 import { getSupabase, isSupabaseConfigured } from '../../utils/supabase';
+import Link from 'next/link';
 
 const AdminDashboard = () => {
   const router = useRouter();
   const [products, setProducts] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
+  const [uploading, setUploading] = useState(false);
   const [newProduct, setNewProduct] = useState({
     title: '',
     description: '',
     price: '',
     category: '',
     image: '',
-    stock: ''
+    stock: '',
+    specs: ['']
   });
 
   useEffect(() => {
@@ -123,6 +126,65 @@ const AdminDashboard = () => {
     }));
   };
 
+  const handleSpecChange = (index, value) => {
+    const newSpecs = [...newProduct.specs];
+    newSpecs[index] = value;
+    setNewProduct(prev => ({
+      ...prev,
+      specs: newSpecs
+    }));
+  };
+
+  const addSpecField = () => {
+    setNewProduct(prev => ({
+      ...prev,
+      specs: [...prev.specs, '']
+    }));
+  };
+
+  const removeSpecField = (index) => {
+    setNewProduct(prev => ({
+      ...prev,
+      specs: prev.specs.filter((_, i) => i !== index)
+    }));
+  };
+
+  const handleImageUpload = async (e) => {
+    try {
+      const file = e.target.files[0];
+      if (!file) return;
+
+      setUploading(true);
+      const supabase = getSupabase();
+
+      // Create a unique file name
+      const fileExt = file.name.split('.').pop();
+      const fileName = `${Math.random().toString(36).substring(2)}-${Date.now()}.${fileExt}`;
+      const filePath = `product-images/${fileName}`;
+
+      // Upload the file to Supabase Storage
+      const { error: uploadError } = await supabase.storage
+        .from('products')
+        .upload(filePath, file);
+
+      if (uploadError) throw uploadError;
+
+      // Get the public URL
+      const { data: { publicUrl } } = supabase.storage
+        .from('products')
+        .getPublicUrl(filePath);
+
+      setNewProduct(prev => ({
+        ...prev,
+        image: publicUrl
+      }));
+    } catch (err) {
+      setError('Failed to upload image: ' + err.message);
+    } finally {
+      setUploading(false);
+    }
+  };
+
   const handleAddProduct = async (e) => {
     e.preventDefault();
     try {
@@ -136,7 +198,8 @@ const AdminDashboard = () => {
         .insert([{
           ...newProduct,
           price: parseFloat(newProduct.price),
-          stock: parseInt(newProduct.stock)
+          stock: parseInt(newProduct.stock),
+          specs: newProduct.specs.filter(spec => spec.trim() !== '')
         }])
         .select();
 
@@ -149,23 +212,29 @@ const AdminDashboard = () => {
         price: '',
         category: '',
         image: '',
-        stock: ''
+        stock: '',
+        specs: ['']
       });
     } catch (err) {
-      setError('Failed to add product');
-      console.error('Error adding product:', err);
+      setError('Failed to add product: ' + err.message);
     }
   };
 
-  const handleDeleteProduct = async (productId) => {
+  const handleDeleteProduct = async (productId, imageUrl) => {
     if (!confirm('Are you sure you want to delete this product?')) return;
 
     try {
-      if (!isSupabaseConfigured()) {
-        throw new Error('Database service is not configured');
+      const supabase = getSupabase();
+
+      // Delete the image from storage if it exists
+      if (imageUrl) {
+        const imagePath = imageUrl.split('/').pop();
+        await supabase.storage
+          .from('products')
+          .remove([`product-images/${imagePath}`]);
       }
 
-      const supabase = getSupabase();
+      // Delete the product from the database
       const { error } = await supabase
         .from('products')
         .delete()
@@ -175,8 +244,7 @@ const AdminDashboard = () => {
 
       setProducts(prev => prev.filter(product => product.id !== productId));
     } catch (err) {
-      setError('Failed to delete product');
-      console.error('Error deleting product:', err);
+      setError('Failed to delete product: ' + err.message);
     }
   };
 
@@ -240,14 +308,16 @@ const AdminDashboard = () => {
 
               <div className="form-row">
                 <div className="form-group">
-                  <label htmlFor="price">Price</label>
+                  <label htmlFor="price">Price (₹)</label>
                   <input
-                    type="number"
+                    type="text"
+                    inputMode="numeric"
+                    pattern="[0-9]*"
                     id="price"
                     name="price"
                     value={newProduct.price}
                     onChange={handleInputChange}
-                    step="0.01"
+                    placeholder="Enter price in ₹"
                     required
                   />
                 </div>
@@ -278,15 +348,52 @@ const AdminDashboard = () => {
               </div>
 
               <div className="form-group">
-                <label htmlFor="image">Image URL</label>
-                <input
-                  type="url"
-                  id="image"
-                  name="image"
-                  value={newProduct.image}
-                  onChange={handleInputChange}
-                  required
-                />
+                <label htmlFor="image">Product Image</label>
+                <div className="image-upload-container">
+                  <input
+                    type="file"
+                    id="image"
+                    accept="image/*"
+                    onChange={handleImageUpload}
+                    className="image-input"
+                  />
+                  {uploading && <span className="upload-status">Uploading...</span>}
+                  {newProduct.image && (
+                    <div className="image-preview">
+                      <img src={newProduct.image} alt="Product preview" />
+                    </div>
+                  )}
+                </div>
+              </div>
+
+              <div className="form-group">
+                <label>Specifications</label>
+                {newProduct.specs.map((spec, index) => (
+                  <div key={index} className="spec-input-group">
+                    <input
+                      type="text"
+                      value={spec}
+                      onChange={(e) => handleSpecChange(index, e.target.value)}
+                      placeholder="Enter specification"
+                    />
+                    {index > 0 && (
+                      <button
+                        type="button"
+                        onClick={() => removeSpecField(index)}
+                        className="remove-spec-btn"
+                      >
+                        ✕
+                      </button>
+                    )}
+                  </div>
+                ))}
+                <button
+                  type="button"
+                  onClick={addSpecField}
+                  className="add-spec-btn"
+                >
+                  + Add Specification
+                </button>
               </div>
 
               <button type="submit" className="add-button">Add Product</button>
@@ -295,20 +402,25 @@ const AdminDashboard = () => {
 
           <div className="products-section">
             <h2>Manage Products</h2>
-            <div className="products-grid">
-              {products.map(product => (
+            <div className="product-grid">
+              {products.map((product) => (
                 <div key={product.id} className="product-card">
-                  <img src={product.image} alt={product.title} />
+                  <img src={product.image} alt={product.title} className="product-image" />
                   <div className="product-info">
                     <h3>{product.title}</h3>
-                    <p className="price">₹{(product.price * 83).toLocaleString('en-IN')}</p>
-                    <p className="stock">Stock: {product.stock}</p>
-                    <button 
-                      onClick={() => handleDeleteProduct(product.id)}
-                      className="delete-button"
-                    >
-                      Delete
-                    </button>
+                    <p>Price: ₹{product.price.toLocaleString('en-IN')}</p>
+                    <p>Stock: {product.stock}</p>
+                    <div className="product-actions">
+                      <Link href={`/admin/edit-product/${product.id}`}>
+                        <button className="edit-btn">Edit</button>
+                      </Link>
+                      <button
+                        onClick={() => handleDeleteProduct(product.id, product.image)}
+                        className="delete-btn"
+                      >
+                        Delete
+                      </button>
+                    </div>
                   </div>
                 </div>
               ))}
@@ -371,7 +483,7 @@ const AdminDashboard = () => {
           font-weight: 500;
         }
 
-        input, textarea {
+        input, textarea, select {
           width: 100%;
           padding: 0.75rem;
           border: 1px solid #e2e8f0;
@@ -384,10 +496,66 @@ const AdminDashboard = () => {
           resize: vertical;
         }
 
-        input:focus, textarea:focus {
+        input:focus, textarea:focus, select:focus {
           outline: none;
           border-color: #4f46e5;
           box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.1);
+        }
+
+        .image-upload-container {
+          position: relative;
+        }
+
+        .image-input {
+          width: 100%;
+          padding: 0.75rem;
+          border: 2px dashed #d1d5db;
+          border-radius: 6px;
+          cursor: pointer;
+        }
+
+        .upload-status {
+          display: inline-block;
+          margin-top: 0.5rem;
+          color: #4f46e5;
+        }
+
+        .image-preview {
+          margin-top: 1rem;
+          max-width: 200px;
+        }
+
+        .image-preview img {
+          width: 100%;
+          height: auto;
+          border-radius: 6px;
+        }
+
+        .spec-input-group {
+          display: flex;
+          gap: 0.5rem;
+          margin-bottom: 0.5rem;
+        }
+
+        .remove-spec-btn {
+          background: #fee2e2;
+          color: #991b1b;
+          border: none;
+          border-radius: 4px;
+          width: 32px;
+          height: 32px;
+          cursor: pointer;
+        }
+
+        .add-spec-btn {
+          background: #f3f4f6;
+          color: #374151;
+          border: none;
+          border-radius: 6px;
+          padding: 0.5rem 1rem;
+          cursor: pointer;
+          width: 100%;
+          margin-top: 0.5rem;
         }
 
         .add-button {
@@ -414,7 +582,7 @@ const AdminDashboard = () => {
           box-shadow: 0 4px 24px rgba(0,0,0,0.1);
         }
 
-        .products-grid {
+        .product-grid {
           display: grid;
           grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
           gap: 1.5rem;
@@ -455,20 +623,38 @@ const AdminDashboard = () => {
           margin: 0.5rem 0;
         }
 
-        .delete-button {
-          width: 100%;
-          padding: 0.5rem;
-          background: #ef4444;
-          color: white;
-          border: none;
-          border-radius: 4px;
-          font-size: 0.9rem;
-          cursor: pointer;
-          transition: background 0.2s;
+        .product-actions {
+          display: flex;
+          gap: 1rem;
+          margin-top: 1rem;
         }
 
-        .delete-button:hover {
-          background: #dc2626;
+        .edit-btn, .delete-btn {
+          flex: 1;
+          padding: 0.5rem;
+          border: none;
+          border-radius: 4px;
+          font-weight: 600;
+          cursor: pointer;
+          transition: all 0.2s;
+        }
+
+        .edit-btn {
+          background: #4f46e5;
+          color: white;
+        }
+
+        .edit-btn:hover {
+          background: #4338ca;
+        }
+
+        .delete-btn {
+          background: #fee2e2;
+          color: #991b1b;
+        }
+
+        .delete-btn:hover {
+          background: #fecaca;
         }
 
         .error-message {
@@ -478,6 +664,15 @@ const AdminDashboard = () => {
           border-radius: 6px;
           margin-bottom: 1.5rem;
           text-align: center;
+        }
+
+        input[type="number"]::-webkit-inner-spin-button,
+        input[type="number"]::-webkit-outer-spin-button {
+          -webkit-appearance: none;
+          margin: 0;
+        }
+        input[type="number"] {
+          -moz-appearance: textfield;
         }
       `}</style>
     </>

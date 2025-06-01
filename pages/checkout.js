@@ -23,6 +23,9 @@ const Checkout = () => {
     const [loading, setLoading] = useState(false);
     const router = useRouter();
 
+    // Calculate total amount from cart items
+    const totalAmount = cartItems.reduce((total, item) => total + (item.price * item.quantity), 0);
+
     // Check if cart is empty
     useEffect(() => {
         if (cartItems.length === 0 && !showConfirmation) {
@@ -83,9 +86,6 @@ const Checkout = () => {
                     router.push('/login');
                     return;
                 }
-
-                // Calculate total amount
-                const totalAmount = cartItems.reduce((total, item) => total + item.price * item.quantity, 0);
 
                 // Create order in database
                 const { error: orderError } = await supabase
@@ -253,6 +253,21 @@ const Checkout = () => {
                         Pay with cash when your order is delivered!
                     </div>
                 )}
+                <div className="order-summary">
+                    <h2>Order Summary</h2>
+                    <div className="summary-item">
+                        <span>Subtotal:</span>
+                        <span>₹{totalAmount.toLocaleString('en-IN')}</span>
+                    </div>
+                    <div className="summary-item">
+                        <span>Shipping:</span>
+                        <span>Free</span>
+                    </div>
+                    <div className="summary-total">
+                        <span>Total:</span>
+                        <span>₹{totalAmount.toLocaleString('en-IN')}</span>
+                    </div>
+                </div>
                 <button 
                     type="submit" 
                     disabled={loading}

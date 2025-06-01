@@ -10,7 +10,7 @@ const CartItem = ({ item, onRemove, onQuantityChange }) => {
             <img src={item.image} alt={item.title} style={{ width: 90, height: 90, objectFit: 'contain', borderRadius: 10, background: '#f3f4f6', marginRight: 18 }} />
             <div className="item-details" style={{ flex: 1 }}>
                 <h3 style={{ fontSize: '1.15rem', margin: 0, color: '#2d2d2d', fontWeight: 700 }}>{item.title}</h3>
-                <p style={{ color: '#4f46e5', fontWeight: 600, margin: '0.5rem 0 0.7rem 0' }}>Price: ₹{(item.price * 83).toLocaleString('en-IN', { maximumFractionDigits: 0 })}</p>
+                <p style={{ color: '#4f46e5', fontWeight: 600, margin: '0.5rem 0 0.7rem 0' }}>Price: ₹{item.price.toLocaleString('en-IN')}</p>
                 <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
                 <input 
                     type="number" 

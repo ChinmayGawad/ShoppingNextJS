@@ -13,10 +13,10 @@ const Cart = () => {
     };
 
     const handleQuantityChange = (id, quantity) => {
-        updateQuantity(id, quantity);
+        updateQuantity(id, parseInt(quantity));
     };
 
-    const totalAmount = cartItems.reduce((total, item) => total + item.price * item.quantity, 0);
+    const totalAmount = cartItems.reduce((total, item) => total + (item.price * item.quantity), 0);
 
     return (
         <div className="cart-bg">
@@ -28,18 +28,18 @@ const Cart = () => {
                 ) : (
                     <div style={{ maxWidth: 650, margin: '2.5rem auto', background: '#fff', borderRadius: 18, boxShadow: '0 4px 24px rgba(0,0,0,0.10)', padding: '2.5rem 2rem' }}>
                         <div style={{ minHeight: 120 }}>
-                        {cartItems.map(item => (
-                            <CartItem 
-                                key={item.id} 
-                                item={item} 
-                                onRemove={handleRemove} 
-                                onQuantityChange={handleQuantityChange} 
-                            />
-                        ))}
+                            {cartItems.map(item => (
+                                <CartItem 
+                                    key={item.id} 
+                                    item={item} 
+                                    onRemove={handleRemove} 
+                                    onQuantityChange={handleQuantityChange} 
+                                />
+                            ))}
                         </div>
                         <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginTop: 32, gap: 18, flexWrap: 'wrap' }}>
                             <h2 className="cart-total" style={{ margin: 0, fontSize: '1.25rem', color: '#4f46e5', fontWeight: 800 }}>
-                                Total: ₹{(totalAmount * 83).toLocaleString('en-IN', { maximumFractionDigits: 0 })}
+                                Total: ₹{totalAmount.toLocaleString('en-IN')}
                             </h2>
                             <Link className="checkout-btn" href="/checkout" style={{ background: 'linear-gradient(90deg, #0070f3 60%, #4f46e5 100%)', color: '#fff', padding: '0.7rem 2.2rem', borderRadius: 8, fontSize: '1.1rem', fontWeight: 600, textAlign: 'center', textDecoration: 'none', transition: 'background 0.2s, transform 0.15s', boxShadow: '0 2px 8px rgba(79,70,229,0.08)' }}>
                                 Proceed to Checkout
